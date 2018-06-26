@@ -1,0 +1,191 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{8331C4B9-19F7-4E02-965C-66AA74AC3F94}</ProjectGuid>
+    <RootNamespace>Amplify</RootNamespace>
+    <ProjectName>Amplify</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IntDir>$(SolutionDir)\temp_files\$(Configuration)\</IntDir>
+    <IncludePath>$(SolutionDir)Dependencies\freetype\include;$(SolutionDir)Dependencies\SOIL\include;$(SolutionDir)Dependencies\GLFW\include;$(SolutionDir)Dependencies\GLEW\include;$(IncludePath);$(SolutionDir)Dependencies\GLM\include;$(SolutionDir)Dependencies\irrKlang\include;$(SolutionDir)Dependencies\lua-5.3.4\src;$(SolutionDir)Dependencies\LuaBridge-master\Source\LuaBridge\detail;</IncludePath>
+    <LibraryPath>$(SolutionDir)Dependencies\freetype;$(SolutionDir)Dependencies\SOIL\lib;$(SolutionDir)Dependencies\GLFW\lib-vc2013;$(SolutionDir)Dependencies\GLEW\lib;$(SolutionDir)Dependencies\irrKlang\libs;$(LibraryPath);$(SolutionDir)Dependencies\lua-5.3.4</LibraryPath>
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(SolutionDir)\bin\$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <IntDir>$(SolutionDir)\temp_files\$(Configuration)\</IntDir>
+    <IncludePath>$(SolutionDir)Dependencies\freetype\include;$(SolutionDir)Dependencies\SOIL\include;$(SolutionDir)Dependencies\GLFW\include;$(SolutionDir)Dependencies\GLEW\include;$(IncludePath);$(SolutionDir)Dependencies\GLM\include;$(SolutionDir)Dependencies\irrKlang\include;$(SolutionDir)Dependencies\lua-5.3.4\src;$(SolutionDir)Dependencies\LuaBridge-master\Source\LuaBridge\detail;</IncludePath>
+    <LibraryPath>$(SolutionDir)Dependencies\freetype;$(SolutionDir)Dependencies\SOIL\lib;$(SolutionDir)Dependencies\GLFW\lib-vc2013;$(SolutionDir)Dependencies\GLEW\lib;$(SolutionDir)Dependencies\irrKlang\libs;$(LibraryPath);$(SolutionDir)Dependencies\lua-5.3.4</LibraryPath>
+    <OutDir>$(SolutionDir)\bin\$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>
+      </SDLCheck>
+      <PreprocessorDefinitions>GLEW_STATIC;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>freetype281.lib;glfw3.lib;glew32s.lib;opengl32.lib;soil.lib;irrKlang.lib;lua53.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <BuildLog>
+      <Path>"G:\===Code===\scp-e-Amplify\Amplify\logs\$(Configuration)"</Path>
+    </BuildLog>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>GLEW_STATIC;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>freetype281.lib;glfw3.lib;glew32s.lib;opengl32.lib;soil.lib;irrKlang.lib;lua53.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <BuildLog>
+      <Path>"G:\===Code===\scp-e-Amplify\Amplify\logs\$(Configuration)"</Path>
+    </BuildLog>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="EntityComponents\Component.cpp" />
+    <ClCompile Include="EntityComponents\Entity.cpp" />
+    <ClCompile Include="EntityComponents\GraphicsComponent.cpp" />
+    <ClCompile Include="EntityComponents\LevelComponent.cpp" />
+    <ClCompile Include="EntityComponents\LuaHelperFunctions.cpp" />
+    <ClCompile Include="EntityComponents\MenuComponent.cpp" />
+    <ClCompile Include="EntityComponents\TextComponent.cpp" />
+    <ClCompile Include="EntityComponents\NpcComponent.cpp" />
+    <ClCompile Include="Extras\buffers\buffer.cpp" />
+    <ClCompile Include="Extras\buffers\indexbuffer.cpp" />
+    <ClCompile Include="Extras\buffers\shader.cpp" />
+    <ClCompile Include="Extras\buffers\vertexarray.cpp" />
+    <ClCompile Include="Extras\LuaScript.cpp" />
+    <ClCompile Include="Extras\maths\mat4.cpp" />
+    <ClCompile Include="Extras\maths\vec2.cpp" />
+    <ClCompile Include="Extras\maths\vec3.cpp" />
+    <ClCompile Include="Extras\maths\vec4.cpp" />
+    <ClCompile Include="Extras\window\window.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Systems\notused\LevelSystem.cpp" />
+    <ClCompile Include="Systems\SceneManager.cpp" />
+    <ClCompile Include="Systems\Utility\CollisionSystem.cpp" />
+    <ClCompile Include="Systems\Utility\EntitySystem.cpp" />
+    <ClCompile Include="Systems\GameLoopSystem.cpp" />
+    <ClCompile Include="Systems\InputSystem.cpp" />
+    <ClCompile Include="Systems\Utility\MovementSystem.cpp" />
+    <ClCompile Include="Systems\RenderingSystem.cpp" />
+    <ClCompile Include="Systems\MainSystem.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="EntityComponents\Component.h" />
+    <ClInclude Include="EntityComponents\Entity.h" />
+    <ClInclude Include="EntityComponents\EntityFactory.h" />
+    <ClInclude Include="EntityComponents\GraphicsComponent.h" />
+    <ClInclude Include="EntityComponents\LevelComponent.h" />
+    <ClInclude Include="EntityComponents\LuaHelperFunctions.h" />
+    <ClInclude Include="EntityComponents\MenuComponent.h" />
+    <ClInclude Include="EntityComponents\TextComponent.h" />
+    <ClInclude Include="EntityComponents\NpcComponent.h" />
+    <ClInclude Include="Extras\buffers\buffer.h" />
+    <ClInclude Include="Extras\buffers\indexbuffer.h" />
+    <ClInclude Include="Extras\buffers\shader.h" />
+    <ClInclude Include="Extras\buffers\vertexarray.h" />
+    <ClInclude Include="Extras\fileutils.h" />
+    <ClInclude Include="Extras\LuaScript.h" />
+    <ClInclude Include="Extras\maths\mat4.h" />
+    <ClInclude Include="Extras\maths\maths.h" />
+    <ClInclude Include="Extras\maths\maths_func.h" />
+    <ClInclude Include="Extras\maths\vec2.h" />
+    <ClInclude Include="Extras\maths\vec3.h" />
+    <ClInclude Include="Extras\maths\vec4.h" />
+    <ClInclude Include="Extras\window\window.h" />
+    <ClInclude Include="Systems\notused\LevelSystem.h" />
+    <ClInclude Include="Systems\SceneManager.h" />
+    <ClInclude Include="Systems\Utility\CollisionSystem.h" />
+    <ClInclude Include="Systems\Utility\EntitySystem.h" />
+    <ClInclude Include="Systems\GameLoopSystem.h" />
+    <ClInclude Include="Systems\InputSystem.h" />
+    <ClInclude Include="Systems\Utility\MovementSystem.h" />
+    <ClInclude Include="Systems\RenderingSystem.h" />
+    <ClInclude Include="Systems\MainSystem.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Extras\shaders\basic.frag" />
+    <None Include="Extras\shaders\basic.vert" />
+    <None Include="Extras\shaders\FTtext.frag" />
+    <None Include="Extras\shaders\FTtext.vert" />
+    <None Include="Extras\shaders\text.frag" />
+    <None Include="Extras\shaders\text.vert" />
+    <None Include="Scripts\buffer_data\buffer_data.lua" />
+    <None Include="Scripts\Levels\levels.lua" />
+    <None Include="Scripts\Menus\gameover.lua" />
+    <None Include="Scripts\Levels\L1\enemies.lua" />
+    <None Include="Scripts\Levels\L1\ghost.lua" />
+    <None Include="Scripts\Levels\L1\player.lua" />
+    <None Include="Scripts\Menus\mainmenu.lua" />
+    <None Include="Scripts\Menus\pausemenu.lua" />
+    <None Include="Scripts\Settings.lua" />
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="Extras\fonts\LSANSD.TTF" />
+    <Font Include="Extras\fonts\LSANSDI.TTF" />
+    <Font Include="Extras\fonts\LSANSI.TTF" />
+    <Font Include="Extras\fonts\LucidaSansDemiBold.ttf" />
+    <Font Include="Extras\fonts\LucidaSansRegular.ttf" />
+    <Font Include="Extras\fonts\MarkyMarker.ttf" />
+    <Font Include="Extras\fonts\Prototype.ttf" />
+    <Font Include="Extras\fonts\space age.ttf" />
+    <Font Include="Extras\fonts\spaceage.ttf" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Assets\Textures\ammo.png" />
+    <Image Include="Assets\Textures\ghost.jpg" />
+    <Image Include="Assets\Textures\ghost.png" />
+    <Image Include="Assets\Textures\player.png" />
+    <Image Include="Assets\Textures\superghost.png" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

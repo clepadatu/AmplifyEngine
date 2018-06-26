@@ -1,0 +1,9 @@
+ID=10
+Name="Main Menu"
+Optionvec={"New Game","Test - Pause Menu","Exit Game"}
+Xvec={10,10,10}
+Yvec={50,55,60}
+IDvec={1,11,0}
+Timeout_enable=0
+Timeout=0
+Active=1

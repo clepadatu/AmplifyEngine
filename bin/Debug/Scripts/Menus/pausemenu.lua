@@ -1,0 +1,9 @@
+ID=11
+Name="Game Menu"
+Optionvec={"Save game","Load game","Options","End game","Return to game"}
+Xvec={10,10,10,10,10}
+Yvec={50,55,60,65,70}		
+IDvec={-1,-1,-1,10,-2}
+Timeout_enable=0
+Timeout=0
+Active=0
