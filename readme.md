@@ -1,3 +1,5 @@
+# AmplifyEngine (build 1.0.0.1)
+
 
 AmplifyEngine is a learning ground project for C++&OpenGL game programming. This is nowhere nearly to be a complete experience and should be considered a WIP. More will come as time permits and updates will pushed at least on a weekly basis.
 
