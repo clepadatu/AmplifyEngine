@@ -31,7 +31,9 @@ public:
 
 	MainSystem();
 	~MainSystem();
-
+	void Inception ();
+	void switchOffGLSYS ();
+	void switchOnGLSYS ();
 
 	int reqid;
 
@@ -41,4 +43,6 @@ private:
 	InputSystem* ISYS;
 	SceneManager* Curtain;	
 	CollisionSystem* Collide;
+
+	bool doingInception;
 };

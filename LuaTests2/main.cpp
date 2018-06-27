@@ -85,6 +85,7 @@ Entity* loadMenuEntity ( const std::string& type, const int UID, const int UID_M
 int main ( )
 	{
 	auto MSYS = new MainSystem ();	
+	MSYS->Inception ();
 	}
 
 

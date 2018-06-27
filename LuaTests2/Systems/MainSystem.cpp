@@ -4,7 +4,7 @@
 
 MainSystem::MainSystem()
 {
-
+doingInception = true;
 RSYS = new RenderingSystem ( );
 Collide = new CollisionSystem ( RSYS );
 Curtain = new SceneManager ();
@@ -23,6 +23,19 @@ GLSYS->DoMainLoop ();
 //do reset object and add closed state or reloading stuff
 
 reqid = ISYS->req_id;
+
+// do and set node movement and add Rendering System Jobs
+
+
+
+// The Inception Loop - Halt Screen to current state display, and reload/release resources
+// examples: - configure menu trees into Game Regions. Game Regions design.
+//           - resource cleanup optimized to minimum operations
+//           - idle/transition screen animation, preseeded with time duration analysis
+//           - digital media injector and player
+//           -
+
+
 if (ISYS->game_status != "Shutdown")
 	{
 	//RSYS = new RenderingSystem(); //Rendering System
@@ -38,10 +51,32 @@ if (ISYS->game_status != "Shutdown")
 	RSYS->enableOBJOnly ();
 	ISYS->setAmmo ( Curtain->getAmmo ( ),"" );
 	ISYS->game_running = true;
-	GLSYS->DoMainLoop();
+	//GLSYS->DoMainLoop();
+
 	}
 
 std::cout << "Time to go outside and play..." << std::endl;
 
 };
 
+void MainSystem::Inception ()
+	{
+	std::cout << "Starting engine..." << std::endl;
+	while ( doingInception )
+		{
+		GLSYS->DoMainLoop ( );
+
+
+//		RSYS->RunDefault ( );
+		}
+	}
+
+void MainSystem::switchOffGLSYS ()
+	{
+	ISYS->game_running = false;
+	}
+
+void MainSystem::switchOnGLSYS ( )
+	{
+	ISYS->game_running = true;
+	}

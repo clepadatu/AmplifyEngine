@@ -17,6 +17,7 @@ GameLoopSystem::GameLoopSystem ( RenderingSystem* RenderSystem,InputSystem* Inpu
 
 void GameLoopSystem::DoMainLoop ()
 	{
+	
 	while (ISYS->getGameState())
 		{
 		//game_active = ISYS->getGameState();
@@ -43,6 +44,7 @@ void GameLoopSystem::DoMainLoop ()
 		renderScreen ( );
 
 		}
+	ISYS->game_running = false; //move this to getInput();
 	}
 
 void GameLoopSystem::getInput ()
