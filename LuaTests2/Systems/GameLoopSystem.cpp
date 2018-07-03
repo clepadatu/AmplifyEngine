@@ -83,6 +83,8 @@ void GameLoopSystem::updateGameState ( bool throttle)
 
 void GameLoopSystem::renderScreen ()
 	{
+	if ( ISYS->getGameState () == false )
+		RSYS->goodbye = true;
 	RSYS->renderAllActive (elapsed );
 	WSYS->update ( );
 	}

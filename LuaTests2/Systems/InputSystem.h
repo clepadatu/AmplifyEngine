@@ -62,7 +62,7 @@ class InputSystem
 		void resetInput ();
 
 
-
+		bool keyDPressed ();
 		bool keyUpPressed ();
 		bool keyDownPressed ();
 		bool keyRightPressed ();

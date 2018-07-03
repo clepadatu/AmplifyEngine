@@ -84,8 +84,13 @@ Entity* loadMenuEntity ( const std::string& type, const int UID, const int UID_M
 
 int main ( )
 	{
-	auto MSYS = new MainSystem ();	
-	MSYS->Inception ();
+	//Real Made Engine - RM Engine - RME - AmplifyEngine
+	// 
+	auto AmplifyEngine = new MainSystem ();	
+
+	AmplifyEngine->fireUpTheEngine ( );	
+	AmplifyEngine->Inception ( );
+
 	}
 
 

@@ -16,6 +16,8 @@ MenuComponent::MenuComponent ( LuaScript script )
 	auto touten = script.get<int> ( "Timeout_enable" );
 	auto tout = script.get<int> ( "Timeout" );
 	auto act = script.get<int> ( "Active" );
+	auto _misc = script.get<std::string> ( "MiscPhrase" );
+	
 	std::map<int,Item> OptionsMap;
 	
 	for ( int i = 0; i < Ovec.size ( ); ++i )
@@ -42,7 +44,8 @@ MenuComponent::MenuComponent ( LuaScript script )
 	Timeout_enable = touten;
 	Timeout = tout;
 	Active = act;
-
+	Misc = _misc;
+	std::cout << Misc << std::endl;
 	}
 
 void MenuComponent::incrementActiveItem()

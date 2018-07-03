@@ -21,6 +21,7 @@ class SceneManager
 		SceneManager();
 		~SceneManager();
 
+		void basicInitialization (int& code );
 		// Read LVL and UI Data
 		void readFramework();
 		// Load LVL OBJ data - lvl 1 default loading

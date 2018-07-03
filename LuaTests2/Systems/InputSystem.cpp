@@ -317,6 +317,15 @@ void InputSystem::processPlayerInput ()
 	launched = false;
 	}
 
+
+bool InputSystem::keyDPressed ()
+	{
+	if ( WSYS->isKeyPressed ( 68 ) )
+		return true;
+	else
+		return false;
+	}
+
 void InputSystem::pollMenuKeys ( )
 	{
 	if ( keyDownPressed ( ) )
@@ -411,6 +420,7 @@ void InputSystem::processMenuSelection ( )
 				case 0:
 					game_status = "Shutdown";
 					closeGame ( );
+					
 					break;
 				case 1:
 					//Go Gameplay

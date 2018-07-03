@@ -270,6 +270,23 @@ void RenderingSystem::countdown ()
 		}
 	}
 
+void RenderingSystem::renderDefault ()
+	{
+	if ( goodbye )
+		{
+		WSYS->clear ( );
+		for ( auto const& item : UI )
+			{
+			textObj = item->get<TextComponent> ( );
+			textObjProp = item->get<MenuComponent> ( );
+			if ( textObjProp->Active==true )
+				textObj->render_text ( "Title", 0.4f, WSYS->getWidth () * 10 / 100, WSYS->getHeight () * 45 / 100, 0, textObjProp->Misc, "green" );
+			}
+		WSYS->update ( );
+	
+		}
+	}
+
 void RenderingSystem::renderMenuItems(Entity* item)
 {
 
@@ -303,6 +320,8 @@ else if (item->get<MenuComponent>()->Active == true)
 		textObj->render_text ( "FPS", 0.6f, WSYS->getWidth () * 5 / 100, WSYS->getHeight () * 5 / 100, CLOCKS_PER_SEC/timerFPS, "FPS:","green" );
 		
 	}
+
+	
 }
 
 void RenderingSystem::renderItem (Entity* item )

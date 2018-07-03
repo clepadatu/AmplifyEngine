@@ -4,79 +4,52 @@
 
 MainSystem::MainSystem()
 {
+std::cout << "Loading..." << std::endl;
+
 doingInception = true;
-RSYS = new RenderingSystem ( );
-Collide = new CollisionSystem ( RSYS );
-Curtain = new SceneManager ();
-ISYS = new InputSystem ( RSYS,Collide,Curtain);
-RSYS->setUI ( Curtain->getUI());
-RSYS->setOBJ ( Curtain->getOBJ ( ) );
-RSYS->setAmmo ( Curtain->getAmmo () );
-RSYS->enableUIOnly ();
-ISYS->setLevelEntities ( Curtain->getOBJ ( ), "Gameplay" );
-ISYS->setAmmo ( Curtain->getAmmo (),"" );
-ISYS->setMenus(Curtain->getUI(), "UI");
-ISYS->setLevels(Curtain->getLVL(), "UI");
-
-GLSYS = new GameLoopSystem ( RSYS,ISYS );
-GLSYS->DoMainLoop ();
-//do reset object and add closed state or reloading stuff
-
-reqid = ISYS->req_id;
-
-// do and set node movement and add Rendering System Jobs
-
-
-
-// The Inception Loop - Halt Screen to current state display, and reload/release resources
-// examples: - configure menu trees into Game Regions. Game Regions design.
-//           - resource cleanup optimized to minimum operations
-//           - idle/transition screen animation, preseeded with time duration analysis
-//           - digital media injector and player
-//           -
-
-
-if (ISYS->game_status != "Shutdown")
-	{
-	//RSYS = new RenderingSystem(); //Rendering System
-	/*ESYS = new EntitySystem();
-	loadLevelEntities(reqid);*/
-	//RSYS->setEntities(Curtain->getOBJ(), "OBJ");
-	ISYS->setMenus(Curtain->getUI(), "UI");
-	ISYS->setLevels(Curtain->getLVL(), "");	
-	ISYS->setLevelEntities ( Curtain->getOBJ ( ), "Gameplay" );
-	RSYS->setUI ( Curtain->getUI () );
-	RSYS->setOBJ ( Curtain->getOBJ () );
-	RSYS->setAmmo ( Curtain->getAmmo () );
-	RSYS->enableOBJOnly ();
-	ISYS->setAmmo ( Curtain->getAmmo ( ),"" );
-	ISYS->game_running = true;
-	//GLSYS->DoMainLoop();
-
-	}
-
-std::cout << "Time to go outside and play..." << std::endl;
+errorCode = -1;
+Renderer = new RenderingSystem ( );
+Collisions = new CollisionSystem ( Renderer );
+InputManager = new InputSystem ( Renderer, Collisions, StageManager );//revamp with input inverter grab from Window
+StageManager = new SceneManager ( );//Knowledge of all systems; linker in Systems Initializer
+GameLoop = new GameLoopSystem ( Renderer, InputManager );
 
 };
+
+void MainSystem::fireUpTheEngine ()
+	{
+
+	StageManager->basicInitialization (errorCode);
+	std::cout << "Error=" << errorCode << std::endl;
+	Renderer->setUI ( StageManager->getUI ( ) );
+	Renderer->setOBJ ( StageManager->getOBJ ( ) );
+	Renderer->setAmmo ( StageManager->getAmmo ( ) );
+	Renderer->enableUIOnly ( );
+	InputManager->setLevelEntities ( StageManager->getOBJ ( ), "Gameplay" );
+	InputManager->setAmmo ( StageManager->getAmmo ( ), "" );
+	InputManager->setMenus ( StageManager->getUI ( ), "UI" );
+	InputManager->setLevels ( StageManager->getLVL ( ), "UI" );
+
+	}
 
 void MainSystem::Inception ()
 	{
 	std::cout << "Starting engine..." << std::endl;
 	while ( doingInception )
 		{
-		GLSYS->DoMainLoop ( );
+		GameLoop->DoMainLoop ( );
 
-
-//		RSYS->RunDefault ( );
+		
+		Renderer->renderDefault ( );
 		}
 	}
 
 void MainSystem::switchOffGLSYS ()
 	{
-	ISYS->game_running = false;
+	InputManager->game_running = false;
 	}
 
 void MainSystem::switchOnGLSYS ( )
 	{
-	ISYS->game_running = true;
+	InputManager->game_running = true;
 	}

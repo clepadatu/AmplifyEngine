@@ -7,3 +7,4 @@ IDvec={1,11,0}
 Timeout_enable=0
 Timeout=0
 Active=1
+MiscPhrase="Whatever endures can be created only gradually by long-continued work and careful reflection."

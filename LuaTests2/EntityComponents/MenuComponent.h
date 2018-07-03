@@ -50,7 +50,7 @@ class MenuComponent : public Component
 		bool selection;
 		Menu thisMenu;
 		std::string NA = "Sorry, this menu is unavailable right now...";
-		
+		std::string Misc;
 		
 	private:
 		int Timeout_enable;

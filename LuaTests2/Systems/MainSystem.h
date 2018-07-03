@@ -31,18 +31,19 @@ public:
 
 	MainSystem();
 	~MainSystem();
+	void fireUpTheEngine ();
 	void Inception ();
 	void switchOffGLSYS ();
 	void switchOnGLSYS ();
-
 	int reqid;
 
 private:
-	RenderingSystem* RSYS; //Rendering System
-	GameLoopSystem* GLSYS;
-	InputSystem* ISYS;
-	SceneManager* Curtain;	
-	CollisionSystem* Collide;
+	RenderingSystem* Renderer; //Rendering System
+	GameLoopSystem* GameLoop;
+	InputSystem* InputManager;
+	SceneManager* StageManager;	
+	CollisionSystem* Collisions;
 
+	int errorCode;
 	bool doingInception;
 };

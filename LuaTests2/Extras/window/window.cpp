@@ -231,7 +231,7 @@
 
 #define 	GLFW_KEY_UP   265
 			*/
-			if ( key == 259 )
+	/*		if ( key == 259 )
 				{			
 				win->enable_text = true;
 				win->text = -2;
@@ -240,7 +240,7 @@
 			{
 				win->done = true;
 				win->enable_text = false;
-			}
+			}*/
 
 		}
 

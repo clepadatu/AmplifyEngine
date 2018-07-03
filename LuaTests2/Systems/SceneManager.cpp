@@ -9,20 +9,21 @@ SceneManager::SceneManager()
 	OBJ = new EntitySystem();     //Object System
 	ammo = new EntitySystem ();
 
-	readFramework ();
-
-	menuList = UI->getEntities(); //List of menus
-	levelList = LVL->getEntities(); //List of levels
-	preloadLevelEntities ();
-	objectList = OBJ->getEntities ( ); //List of objects
-	ammoList = ammo->getEntities ();
-	
-	
-	
-	printLoadedTemplate ();
-
 }
 
+void SceneManager::basicInitialization ( int& code )
+	{
+
+	readFramework ( );
+	menuList = UI->getEntities ( ); //List of menus
+	levelList = LVL->getEntities ( ); //List of levels
+	preloadLevelEntities ( );
+	objectList = OBJ->getEntities ( ); //List of objects
+	ammoList = ammo->getEntities ( );
+
+	printLoadedTemplate ( );
+	code = 0;
+	}
 
 void SceneManager::triggerNewLevel ( int ID )
 	{

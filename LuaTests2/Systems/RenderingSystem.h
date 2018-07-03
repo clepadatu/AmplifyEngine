@@ -25,6 +25,7 @@ public:
 	void renderMenuItems(Entity* item);
 	void renderItem ( Entity* item );
 	void renderBackground ();
+	void renderDefault ();
 
 	void addEntity(Entity* e);
 	std::list<Entity*> getEntities() const{ return EntityList; };
@@ -64,10 +65,14 @@ private:
 	double mouse_y;
 
 	double timerFPS;
+
+
 public:
 	bool NA_Selector = false;
 	clock_t NA_start=0;
 	double NA_delay = 3;
+
+	bool goodbye = false;
 
 	std::string selector;
 private:
