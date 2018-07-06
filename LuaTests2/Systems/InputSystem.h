@@ -12,7 +12,7 @@
 #include "../EntityComponents/LevelComponent.h"
 #include "Utility\CollisionSystem.h"
 #include "Utility/EntitySystem.h"
-#include "SceneManager.h"
+
 extern "C" {
 # include "lua.h"
 # include "lauxlib.h"
@@ -20,13 +20,15 @@ extern "C" {
 	}
 
 #include "../../Dependencies/LuaBridge-master/Source/LuaBridge/LuaBridge.h"
-
+class SceneManager;
 class InputSystem
 	{
 	
 	public:
-		InputSystem(RenderingSystem* RSYS, CollisionSystem* Coll,SceneManager* SceneM);
+		InputSystem();
 		~InputSystem ();
+
+		void linkWithInterface(RenderingSystem* Renderer, CollisionSystem* Collisions, SceneManager* StageManager);
 
 		void setMenus(std::list<Entity*> Entities, std::string type); //Set Initial List of Menus
 		void setLevels(std::list<Entity*> Entities, std::string type); //Set Initial List of Levels
@@ -91,11 +93,12 @@ class InputSystem
 		std::string game_status;
 		int req_id;
 	private:
-		RenderingSystem* RSYS;
-		Window* WSYS;
+		RenderingSystem* Renderer;
+		Window* windowInterface;
+		CollisionSystem* Collisions;
+		SceneManager* StageManager;
+
 		EntitySystem* ESYS;
-		CollisionSystem* Collide;
-		SceneManager* Curtain;
 
 		std::list<Entity*> MenuList;
 		std::list<Entity*> LevelList;

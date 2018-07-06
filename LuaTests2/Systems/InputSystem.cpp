@@ -1,18 +1,24 @@
 #include "InputSystem.h"
+#include "SceneManager.h"
 
 //======================================= CONSTRUCTORS AND MAINTENANCE =================================
 
-InputSystem::InputSystem ( RenderingSystem* RenderSystem, CollisionSystem* Coll, SceneManager* SceneM )
+InputSystem::InputSystem ( )
 	{
 	delay = 0;		
 	menuDirection = 0;
 	game_running = true;
-	RSYS = RenderSystem;
-	WSYS = RSYS->getWindow ();
-	Collide = Coll;
 	game_status = "Work";
-	Curtain = SceneM;
 	}
+
+void InputSystem::linkWithInterface(RenderingSystem* Renderer, CollisionSystem* Collisions, SceneManager* StageManager)
+{
+	this->Renderer = Renderer;
+	windowInterface = this->Renderer->getWindow();
+	this->Collisions = Collisions;
+	this->StageManager = StageManager;
+
+}
 
 InputSystem::~InputSystem ()
 	{}
@@ -294,7 +300,7 @@ void InputSystem::pollGameplayKeys ( )
 		inputTypeReq = "UI";
 		//deactivateMenu ( ActiveMenu );
 		//DEBUG std::cout << "newID=" << new_ID << std::endl;
-		RSYS->enableUIOBJ ();
+		Renderer->enableUIOBJ ();
 
 		setActiveMenu (11);
 		}
@@ -302,12 +308,12 @@ void InputSystem::pollGameplayKeys ( )
 		launched = true;
 	/*if ( keyConfirmPressed ( ) )
 		ActiveMenu->get<MenuComponent> ( )->selection = true;*/
-	WSYS->getMousePosition(mouse_x, mouse_y);
+	windowInterface->getMousePosition(mouse_x, mouse_y);
 	}
 void InputSystem::processPlayerInput ()
 	{
 	
-	Player->get<GraphicsComponent>()->PlayerUpdate(RSYS->Check_resize(), xAxis, yAxis, WSYS, mouse_x, mouse_y);
+	Player->get<GraphicsComponent>()->PlayerUpdate(Renderer->Check_resize(), xAxis, yAxis, windowInterface, mouse_x, mouse_y);
 	if ( launched && countdown() )
 		ActivateProjectile ();
 	UpdateProjectiles ();
@@ -320,7 +326,7 @@ void InputSystem::processPlayerInput ()
 
 bool InputSystem::keyDPressed ()
 	{
-	if ( WSYS->isKeyPressed ( 68 ) )
+	if ( windowInterface->isKeyPressed ( 68 ) )
 		return true;
 	else
 		return false;
@@ -338,7 +344,7 @@ void InputSystem::pollMenuKeys ( )
 
 bool InputSystem::keyUpPressed ( )
 	{
-	if ( WSYS->isKeyPressed ( 265 ) )
+	if ( windowInterface->isKeyPressed ( 265 ) )
 		return true;
 	else
 		return false;
@@ -346,7 +352,7 @@ bool InputSystem::keyUpPressed ( )
 
 bool InputSystem::keyDownPressed ( )
 	{
-	if ( WSYS->isKeyPressed ( 264 ) )
+	if ( windowInterface->isKeyPressed ( 264 ) )
 		return true;
 	else
 		return false;
@@ -354,7 +360,7 @@ bool InputSystem::keyDownPressed ( )
 
 bool InputSystem::keyLeftPressed ( )
 	{
-	if ( WSYS->isKeyPressed ( 263 ) )
+	if ( windowInterface->isKeyPressed ( 263 ) )
 		return true;
 	else
 		return false;
@@ -362,7 +368,7 @@ bool InputSystem::keyLeftPressed ( )
 
 bool InputSystem::keyRightPressed ( )
 	{
-	if ( WSYS->isKeyPressed ( 262 ) )
+	if ( windowInterface->isKeyPressed ( 262 ) )
 		return true;
 	else
 		return false;
@@ -370,7 +376,7 @@ bool InputSystem::keyRightPressed ( )
 
 bool InputSystem::keyEscapePressed ()
 	{
-	if ( WSYS->isKeyPressed ( 256 ) )
+	if ( windowInterface->isKeyPressed ( 256 ) )
 		return true;
 	else
 		return false;
@@ -379,7 +385,7 @@ bool InputSystem::keyEscapePressed ()
 
 bool InputSystem::keyConfirmPressed ( )
 	{
-	if ( WSYS->isKeyPressed ( 257 ) )
+	if ( windowInterface->isKeyPressed ( 257 ) )
 		return true;
 	else
 		return false;
@@ -387,7 +393,7 @@ bool InputSystem::keyConfirmPressed ( )
 
 bool InputSystem::keySpacePressed ( )
 	{
-	if ( WSYS->isKeyPressed ( 32 ) )
+	if ( windowInterface->isKeyPressed ( 32 ) )
 		return true;
 	else
 		return false;
@@ -429,18 +435,18 @@ void InputSystem::processMenuSelection ( )
 					ActiveMenu->get<MenuComponent> ()->selection = false;
 					deactivateMenu ( ActiveMenu );
 					inputTypeReq = "Gameplay";
-					RSYS->enableOBJOnly ();
+					Renderer->enableOBJOnly ();
 					/*closeGame ( );*/
 					break;
 				case -1:
-					RSYS->NA_Selector = true;
+					Renderer->NA_Selector = true;
 					ActiveMenu->get<MenuComponent> ( )->selection = false;
 					break;
 				case -2:
 					inputTypeReq = "Gameplay";
 					//deactivateMenu ( ActiveMenu );
 					//DEBUG std::cout << "newID=" << new_ID << std::endl;
-					RSYS->enableOBJOnly ( );
+					Renderer->enableOBJOnly ( );
 					ActiveMenu->get<MenuComponent> ( )->selection = false;
 					deactivateMenu ( ActiveMenu );
 					break;
@@ -448,7 +454,7 @@ void InputSystem::processMenuSelection ( )
 					inputTypeReq = "UI";
 					//deactivateMenu ( ActiveMenu );
 					//DEBUG std::cout << "newID=" << new_ID << std::endl;
-					RSYS->enableUIOnly ( );
+					Renderer->enableUIOnly ( );
 					ResetOBJs ();
 					ActiveMenu->get<MenuComponent> ( )->selection = false;
 					deactivateMenu ( ActiveMenu );
@@ -476,7 +482,7 @@ void InputSystem::ActivateProjectile ()
 			{
 			(*i).get<GraphicsComponent> ()->active = true;
 			(*i).get<GraphicsComponent> ()->Reinit_pos ( Player->get<GraphicsComponent> ()->playerGetPosition () );
-			(*i).get<GraphicsComponent> ()->Initialise_controls ( WSYS->getWidth (), WSYS->getHeight (), 1, i->get <GraphicsComponent> ()->position_x, i->get <GraphicsComponent> ()->position_y );
+			(*i).get<GraphicsComponent> ()->Initialise_controls ( windowInterface->getWidth (), windowInterface->getHeight (), 1, i->get <GraphicsComponent> ()->position_x, i->get <GraphicsComponent> ()->position_y );
 			break;
 			}
 		}
@@ -488,7 +494,7 @@ void InputSystem::UpdateProjectiles ()
 		{
 		if ( (*i).get<GraphicsComponent> ()->active == true )
 			{
-			if ( (*i).get<GraphicsComponent> ()->_Should_draw ( WSYS ) )
+			if ( (*i).get<GraphicsComponent> ()->_Should_draw ( windowInterface ) )
 				(*i).get<GraphicsComponent> ()->update_projectile ();
 
 			}
@@ -500,13 +506,13 @@ void InputSystem::UpdateProjectiles ()
 void InputSystem::DoCollisions ()
 	{
 
-	Collide->DoCollision ( EntityList, AmmoList );
+	Collisions->DoCollision ( EntityList, AmmoList );
 
 	//for ( auto&i : AmmoList )
 	//	{
 	//	if ( (*i).get<GraphicsComponent> ( )->active == true )
 	//		{
-	//		/*if ( (*i).get<GraphicsComponent> ( )->_Should_draw ( WSYS ) )
+	//		/*if ( (*i).get<GraphicsComponent> ( )->_Should_draw ( windowInterface ) )
 	//			(*i).get<GraphicsComponent> ( )->update_projectile ( );*/
 	//		for ( auto&k : EntityList )
 	//			{
@@ -540,8 +546,8 @@ bool InputSystem::countdown ( )
 
 void InputSystem::ResetOBJs ()
 	{
-	RSYS->setOBJ ( Curtain->getOBJ () );
-	for ( auto&i : Curtain->getOBJ () )
+	Renderer->setOBJ ( StageManager->getOBJ () );
+	for ( auto&i : StageManager->getOBJ () )
 		{
 		(*i).get<GraphicsComponent> ()->destroyed = false;
 		}

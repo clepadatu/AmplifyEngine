@@ -1,9 +1,14 @@
 #include "CollisionSystem.h"
 
-CollisionSystem::CollisionSystem ( RenderingSystem* RSYS )
+CollisionSystem::CollisionSystem ( )
 	{
-	WSYS = RSYS->getWindow ();
+	
 	}
+
+void CollisionSystem::linkWithInterface(Window* windowInterface)
+{
+	this->windowInterface = windowInterface;
+}
 
 void CollisionSystem::DoCollision ( std::list<Entity*> &OBJ, std::list<Entity*> &PROJ ) // AABB - AABB collision
 	{
@@ -12,7 +17,7 @@ void CollisionSystem::DoCollision ( std::list<Entity*> &OBJ, std::list<Entity*> 
 		{
 		if ( (*i).get<GraphicsComponent> ()->active == true )
 			{
-			/*if ( (*i).get<GraphicsComponent> ( )->_Should_draw ( WSYS ) )
+			/*if ( (*i).get<GraphicsComponent> ( )->_Should_draw ( windowInterface ) )
 			(*i).get<GraphicsComponent> ( )->update_projectile ( );*/
 			for ( auto&k : OBJ )
 				{
@@ -37,12 +42,12 @@ void CollisionSystem::DoCollision ( std::list<Entity*> &OBJ, std::list<Entity*> 
 GLboolean CollisionSystem::CheckCollision ( Entity* one, Entity* two )
 	{
 	
-	bool collisionX = one->get<GraphicsComponent> ( )->position.x + one->get<GraphicsComponent> ( )->Object_controls.return_size_x ( ) / (WSYS->getWidth ( ) / 2) >= two->get<GraphicsComponent> ( )->projectile_position.x &&
-		two->get<GraphicsComponent> ( )->projectile_position.x + two->get<GraphicsComponent> ( )->Object_controls.return_size_x ( ) / (WSYS->getWidth ( ) / 2) >= one->get<GraphicsComponent> ( )->position.x;
+	bool collisionX = one->get<GraphicsComponent> ( )->position.x + one->get<GraphicsComponent> ( )->Object_controls.return_size_x ( ) / (windowInterface->getWidth ( ) / 2) >= two->get<GraphicsComponent> ( )->projectile_position.x &&
+		two->get<GraphicsComponent> ( )->projectile_position.x + two->get<GraphicsComponent> ( )->Object_controls.return_size_x ( ) / (windowInterface->getWidth ( ) / 2) >= one->get<GraphicsComponent> ( )->position.x;
 	//std::cout << collisionX;
 	// Collision y-axis?
-	bool collisionY = one->get<GraphicsComponent> ( )->position.y + one->get<GraphicsComponent> ( )->Object_controls.return_size_y ( ) / (WSYS->getHeight ( ) / 2) <= two->get<GraphicsComponent> ( )->projectile_position.y &&
-		two->get<GraphicsComponent> ( )->projectile_position.y + two->get<GraphicsComponent> ( )->Object_controls.return_size_y ( ) / (WSYS->getHeight ( ) / 2) >= one->get<GraphicsComponent> ( )->position.y;
+	bool collisionY = one->get<GraphicsComponent> ( )->position.y + one->get<GraphicsComponent> ( )->Object_controls.return_size_y ( ) / (windowInterface->getHeight ( ) / 2) <= two->get<GraphicsComponent> ( )->projectile_position.y &&
+		two->get<GraphicsComponent> ( )->projectile_position.y + two->get<GraphicsComponent> ( )->Object_controls.return_size_y ( ) / (windowInterface->getHeight ( ) / 2) >= one->get<GraphicsComponent> ( )->position.y;
 	//std::cout << collisionY;
 	// Collision only if on both axes
 	return collisionX && collisionY;

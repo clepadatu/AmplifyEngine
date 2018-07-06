@@ -15,8 +15,11 @@ class GameLoopSystem
 
 	public:
 
-		GameLoopSystem ( RenderingSystem* RenderSystem, InputSystem* InputsSystem );
+		GameLoopSystem ( );
 		~GameLoopSystem ( );
+		void linkWithInterface(RenderingSystem* Renderer, InputSystem* InputManager);
+
+
 		void DoMainLoop ();
 
 		
@@ -30,10 +33,11 @@ class GameLoopSystem
 	
 
 	private:
+		RenderingSystem* Renderer;
+		InputSystem* InputManager;
+		Window* windowInterface;
+
 		std::list<Entity*> EntityList;
-		Window* WSYS;
-		RenderingSystem* RSYS;
-		InputSystem* ISYS;
 		bool game_active = true;		
 		std::string game_state;
 		double current, elapsed;

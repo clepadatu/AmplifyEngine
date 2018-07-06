@@ -7,21 +7,25 @@ extern "C" {
 #include "../../Dependencies/LuaBridge-master/Source/LuaBridge/LuaBridge.h"
 
 
-GameLoopSystem::GameLoopSystem ( RenderingSystem* RenderSystem,InputSystem* InputsSystem)
+GameLoopSystem::GameLoopSystem ()
 	{
-	RSYS = RenderSystem;
-	WSYS = RSYS->getWindow ();
-	ISYS = InputsSystem;
+	
 	
 	};
 
+void GameLoopSystem::linkWithInterface(RenderingSystem* Renderer, InputSystem* InputManager)
+{
+	this->Renderer= Renderer;
+	windowInterface = this->Renderer->getWindow();
+	this->InputManager = InputManager;
+}
 void GameLoopSystem::DoMainLoop ()
 	{
 	
-	while (ISYS->getGameState())
+	while (InputManager->getGameState())
 		{
-		//game_active = ISYS->getGameState();
-		//game_state = ISYS->game_state;
+		//game_active = InputManager->getGameState();
+		//game_state = InputManager->game_state;
 		current = clock ( );
 		elapsed = current - previous;
 		previous = current;
@@ -29,7 +33,7 @@ void GameLoopSystem::DoMainLoop ()
 
 		getInput ( );
 		//not ideal; input should be registered in process input;input should be processed in updateGameState()
-		if ( RSYS->entityType == "UI" || RSYS->entityType == "UI+OBJ" )
+		if ( Renderer->entityType == "UI" || Renderer->entityType == "UI+OBJ" )
 		{
 
 			while (lag >= 250)
@@ -40,17 +44,17 @@ void GameLoopSystem::DoMainLoop ()
 			while (lag >= 10)
 				updateGameState(false);
 		}
-		ISYS->resetInput();
+		InputManager->resetInput();
 		renderScreen ( );
 
 		}
-	ISYS->game_running = false; //move this to getInput();
+	InputManager->game_running = false; //move this to getInput();
 	}
 
 void GameLoopSystem::getInput ()
 	{
-	WSYS->clear ( );
-	ISYS->getInput();
+	windowInterface->clear ( );
+	InputManager->getInput();
 	}
 
 void GameLoopSystem::updateGameState ( bool throttle)
@@ -59,21 +63,21 @@ void GameLoopSystem::updateGameState ( bool throttle)
 		Reload();*/
 
 
-	if (RSYS->entityType == "UI")
+	if (Renderer->entityType == "UI")
 		{
-			ISYS->processInput(throttle);	
+			InputManager->processInput(throttle);	
 			lag -= 250;
 		}
 	else 
-		if(RSYS->entityType=="OBJ")
+		if(Renderer->entityType=="OBJ")
 		{
-		ISYS->processInput(throttle);
+		InputManager->processInput(throttle);
 		lag -= 10;
 		}
 	else
-	if ( RSYS->entityType == "UI+OBJ" )
+	if ( Renderer->entityType == "UI+OBJ" )
 		{
-		ISYS->processInput ( throttle );
+		InputManager->processInput ( throttle );
 		lag -= 45;
 		}
 	
@@ -83,10 +87,10 @@ void GameLoopSystem::updateGameState ( bool throttle)
 
 void GameLoopSystem::renderScreen ()
 	{
-	if ( ISYS->getGameState () == false )
-		RSYS->goodbye = true;
-	RSYS->renderAllActive (elapsed );
-	WSYS->update ( );
+	if ( InputManager->getGameState () == false )
+		Renderer->goodbye = true;
+	Renderer->renderAllActive (elapsed );
+	windowInterface->update ( );
 	}
 
 

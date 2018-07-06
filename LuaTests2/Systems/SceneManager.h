@@ -13,6 +13,11 @@
 #include "../EntityComponents/LevelComponent.h"
 #include "../Extras/window/window.h"
 #include "Utility\EntitySystem.h"
+#include "SceneManager.h"
+#include "GameLoopSystem.h"
+#include "RenderingSystem.h"
+#include "Utility\EntitySystem.h"
+#include "Utility\CollisionSystem.h"
 
 class SceneManager
 	{
@@ -21,6 +26,8 @@ class SceneManager
 		SceneManager();
 		~SceneManager();
 
+
+		void linkAllInterfaces(RenderingSystem* Renderer, InputSystem* InputManager, CollisionSystem* Collisions, GameLoopSystem* GameLoop);
 		void basicInitialization (int& code );
 		// Read LVL and UI Data
 		void readFramework();
@@ -46,6 +53,13 @@ class SceneManager
 		EntitySystem* LVL;
 		EntitySystem* OBJ;
 		EntitySystem* ammo;
+
+		RenderingSystem* Renderer;
+		InputSystem* InputManager;
+		CollisionSystem* Collisions;
+		GameLoopSystem* GameLoop;
+		Window* windowInterface;
+
 
 		std::list<Entity*> menuList;
 		std::list<Entity*> levelList;

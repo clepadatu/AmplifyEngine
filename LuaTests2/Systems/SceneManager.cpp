@@ -25,6 +25,15 @@ void SceneManager::basicInitialization ( int& code )
 	code = 0;
 	}
 
+void SceneManager::linkAllInterfaces(RenderingSystem* Renderer, InputSystem* InputManager, CollisionSystem* Collisions, GameLoopSystem* GameLoop)
+{
+	this->Renderer = Renderer;
+	this->InputManager = InputManager;
+	this->Collisions = Collisions;
+	this->GameLoop = GameLoop;
+	windowInterface = this->Renderer->getWindow();
+}
+
 void SceneManager::triggerNewLevel ( int ID )
 	{
 	OBJ->Reset ( );

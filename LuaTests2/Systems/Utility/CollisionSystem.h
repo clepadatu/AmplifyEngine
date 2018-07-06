@@ -23,10 +23,14 @@ extern "C" {
 class CollisionSystem
 	{
 	public:
-	CollisionSystem ( RenderingSystem* RSYS);
+
+	CollisionSystem ( );
 	~CollisionSystem ();
+
+	void linkWithInterface(Window* windowInterface);
+
 	public:
-		Window* WSYS;
+		Window* windowInterface;
 
 		void DoCollision ( std::list<Entity*> &OBJ, std::list<Entity*> &PROJ ); // AABB - AABB collision
 		void DoCollision ( std::list<Entity*> &OBJ, Entity* &Player ); // AABB - AABB collision
