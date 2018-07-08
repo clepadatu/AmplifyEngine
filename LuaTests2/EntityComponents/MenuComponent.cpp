@@ -62,7 +62,7 @@ void MenuComponent::decrementActiveItem()
 
 void MenuComponent::normalizeOptionID()
 {
-	std::cout << "OptionID=" << optionID << std::endl;
+	//std::cout << "OptionID=" << optionID << std::endl;
 	if (optionID == thisMenu.Options.size())
 	{
 		optionID = 0;
@@ -71,7 +71,7 @@ void MenuComponent::normalizeOptionID()
 	{
 		optionID = thisMenu.Options.size()-1;
 	}
-	std::cout << "OptionID=" << optionID << std::endl;
+	//std::cout << "OptionID=" << optionID << std::endl;
 }
 
 std::map<int,MenuComponent::Item> MenuComponent::returnAllOptionItems()

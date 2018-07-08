@@ -7,7 +7,7 @@
 #define MAX_BUTTONS 32
 
 
-
+class InputSystem;
 		class Window
 		{
 			//(my vars - m_Var)
@@ -56,6 +56,9 @@
 				char Retrieve_text ();
 				bool Can_retrieve ();
 				bool done;
+				void linkWithInputManager ( InputSystem* InputManager );
+				InputSystem* InputManager;
+				GLFWwindow* getWindow ( );
 			private:
 				//Window Initialisation method
 				bool initialise();
@@ -64,6 +67,9 @@
 				friend static void character_callback ( GLFWwindow* window, unsigned int codepoint );
 				friend static void mouse_button_callback(GLFWwindow* window, int button, int action, int mods);
 				friend static void cursor_position_callback(GLFWwindow* window, double xpos, double ypos);
+				
+
+			
 		};
 
 

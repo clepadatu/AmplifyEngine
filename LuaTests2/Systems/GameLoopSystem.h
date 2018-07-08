@@ -24,7 +24,7 @@ class GameLoopSystem
 
 		
 		void getInput ();
-		void updateGameState(bool throttle);
+		void updateGameState();
 		void renderScreen ();
 		void Reload();
 

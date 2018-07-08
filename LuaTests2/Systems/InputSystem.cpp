@@ -5,10 +5,11 @@
 
 InputSystem::InputSystem ( )
 	{
-	delay = 0;		
+	//delay = 0;		
 	menuDirection = 0;
 	game_running = true;
 	game_status = "Work";
+	keyboardProcessed = true;
 	}
 
 void InputSystem::linkWithInterface(RenderingSystem* Renderer, CollisionSystem* Collisions, SceneManager* StageManager)
@@ -17,8 +18,32 @@ void InputSystem::linkWithInterface(RenderingSystem* Renderer, CollisionSystem* 
 	windowInterface = this->Renderer->getWindow();
 	this->Collisions = Collisions;
 	this->StageManager = StageManager;
-
+	glfwSetKeyCallback ( windowInterface->getWindow(), storeKeys );
 }
+
+void storeKeys ( GLFWwindow* window, int key, int scancode, int action, int mods )
+	{
+	Window* win = (Window*) glfwGetWindowUserPointer ( window );
+	win->InputManager->keyboard[key] = action != GLFW_RELEASE;
+	if ( win->InputManager->keyboard [key] != win->InputManager->keyboardProcessor [key] && win->InputManager->keyboardProcessed )
+		{
+		win->InputManager->keyboardProcessor [key] = win->InputManager->keyboard [key];
+		}
+
+//	if ( win->InputManager->keyboard [key] != win->InputManager->keyboardProcessor [key] )
+
+	}
+
+bool InputSystem::isKeyPressed ( unsigned int keycode ) const
+	{
+	if ( keycode >= MAX_KEYS )
+		return false;
+	return keyboardProcessor [keycode];
+	}
+void InputSystem::resetKey ( unsigned int keycode )
+	{
+	keyboardProcessor [keycode] = !keyboardProcessor [keycode];
+	}
 
 InputSystem::~InputSystem ()
 	{}
@@ -32,35 +57,17 @@ void InputSystem::closeGame ( )
 	game_running = false;
 	}
 
-void InputSystem::resetInput ( )//Delay reset/substract
-	{
-	delay -= 5;
-	}
+
 
 //=========================================================================================================
 
 //======================================= INPUT PROCESSORS =================================
-void InputSystem::processInput ( bool whiletrue )
-	{
-	if ( whiletrue )
-		{
-		while ( delay <= 0 )
-			{
-			//Active Current Option menu data internal in MenuComponent
-			//Multiple Input Types functions based on Entity types
+void InputSystem::processInput (  )
+	{	
 			if ( inputTypeReq == "UI" )
 				processMenuInput ( );
 			else if ( inputTypeReq == "Gameplay" )
-				processGameplayInput ( );
-			}
-		}
-	else
-		{
-		if ( inputTypeReq == "UI" )
-			processMenuInput ( );
-		else if ( inputTypeReq == "Gameplay" )
-			processGameplayInput ( );
-		}
+				processGameplayInput ( );	
 	}
 
 void InputSystem::processMenuInput()
@@ -72,21 +79,21 @@ void InputSystem::processMenuInput()
 		{				
 			setActiveOption();
 			processMenuSelection();			
-			delay = 100;
+		
 			break;
 		}
 		case 11:
 		{
 			setActiveOption();
 			processMenuSelection();
-			delay = 100;
+		
 			break;
 		}
 
 		default:
 			setActiveOption();
 			processMenuSelection();
-			delay = 100;
+			
 			break;	
 	}
 	menuDirection = 0;
@@ -99,14 +106,14 @@ void InputSystem::processGameplayInput()
 	{
 		case 1:
 			processPlayerInput ();
-			//delay = 17;
+			
 			break;
 		case 2:
 
-			delay = 125;
+			
 			break;
 		case 9://Default - travel
-			delay = 125;
+			
 			break;
 	}
 }
@@ -274,13 +281,12 @@ int InputSystem::getActiveLevel ( )
 
 void InputSystem::getInput ( )
 	{
-	if ( delay <= 0 )
-		{
+
 		if ( inputTypeReq == "UI" )
 			pollMenuKeys ();
 		else
 			pollGameplayKeys ();
-		}
+	
 	//else if (inputTypeReq == "Gameplay")
 
 	}
@@ -324,13 +330,7 @@ void InputSystem::processPlayerInput ()
 	}
 
 
-bool InputSystem::keyDPressed ()
-	{
-	if ( windowInterface->isKeyPressed ( 68 ) )
-		return true;
-	else
-		return false;
-	}
+
 
 void InputSystem::pollMenuKeys ( )
 	{
@@ -342,42 +342,68 @@ void InputSystem::pollMenuKeys ( )
 		ActiveMenu->get<MenuComponent> ( )->selection = true;
 	}
 
+bool InputSystem::keyDPressed ( )
+	{
+	if ( isKeyPressed ( 68 ) )
+		{
+		resetKey ( 68 );
+		return true;
+		}
+	else
+		return false;
+	}
+
 bool InputSystem::keyUpPressed ( )
 	{
-	if ( windowInterface->isKeyPressed ( 265 ) )
+	if ( isKeyPressed ( 265 ) )
+		{
+		resetKey ( 265 );
 		return true;
+		}
 	else
 		return false;
 	}
 
 bool InputSystem::keyDownPressed ( )
 	{
-	if ( windowInterface->isKeyPressed ( 264 ) )
+	if ( isKeyPressed ( 264 ) )
+		{
+		resetKey ( 264 );
 		return true;
+		}
 	else
 		return false;
 	}
 
 bool InputSystem::keyLeftPressed ( )
 	{
-	if ( windowInterface->isKeyPressed ( 263 ) )
+	if ( isKeyPressed ( 263 ) )
+		{
+		resetKey ( 263 );
 		return true;
+		}
 	else
 		return false;
 	}
 
 bool InputSystem::keyRightPressed ( )
 	{
-	if ( windowInterface->isKeyPressed ( 262 ) )
+	if ( isKeyPressed ( 262 ) )
+		{
+		resetKey ( 262 );
 		return true;
+		}
 	else
 		return false;
 	}
 
 bool InputSystem::keyEscapePressed ()
 	{
-	if ( windowInterface->isKeyPressed ( 256 ) )
+	if ( isKeyPressed ( 256 ) )
+		{
+		resetKey ( 256 );
 		return true;
+		}
 	else
 		return false;
 
@@ -385,16 +411,22 @@ bool InputSystem::keyEscapePressed ()
 
 bool InputSystem::keyConfirmPressed ( )
 	{
-	if ( windowInterface->isKeyPressed ( 257 ) )
+	if ( isKeyPressed ( 257 ) )
+		{
+		resetKey ( 257 );
 		return true;
+		}
 	else
 		return false;
 	}
 
 bool InputSystem::keySpacePressed ( )
 	{
-	if ( windowInterface->isKeyPressed ( 32 ) )
+	if ( isKeyPressed ( 32 ) )
+		{
+		resetKey ( 32 );
 		return true;
+		}
 	else
 		return false;
 	}

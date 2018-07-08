@@ -1,5 +1,5 @@
 #include "window.h"
-
+#include "../../Systems/InputSystem.h"
 //*******************************************************************************
 //********	  Erebos	*********************************************************
 //***Written by Cristian Lepadatu. Credits to TheChernoProject on youtube.com/
@@ -100,7 +100,7 @@
 
 				//-EVENT CALLBACKS
 				glfwSetWindowSizeCallback(m_Window,windowResize);
-				glfwSetKeyCallback(m_Window, key_callback);
+				//glfwSetKeyCallback(m_Window, key_callback);
 				glfwSetCharCallback ( m_Window, character_callback );
 				glfwSetMouseButtonCallback(m_Window, mouse_button_callback);
 				glfwSetCursorPosCallback(m_Window, cursor_position_callback);
@@ -120,6 +120,19 @@
 
 			}
 		//------------------------------------------------------------------------------------------
+
+		//====Link with input processor===
+		void Window::linkWithInputManager (InputSystem* InputManager)
+			{
+			this->InputManager = InputManager;
+			
+			}
+
+		GLFWwindow* Window::getWindow ()
+			{
+			return m_Window;
+			}
+		//--------------------------------------------
 
 		//=============REFRESH SCREEN PART===========
 		void Window::clear() const
@@ -221,7 +234,9 @@
 		{
 			Window* win = (Window*)glfwGetWindowUserPointer(window);
 			win->m_Keys[key] = action != GLFW_RELEASE;
-	//		std::cout << "Key " << scancode << " is pressed" << std::endl;
+			
+			std::cout << "Key " << scancode << ","<<key<<","<<action<<" is released" << std::endl;
+			//add Input Interpreter, capable of storing 5-20 commands key states/actions, queueing and processing them in order when needed
 			/*
 #define 	GLFW_KEY_RIGHT   262
 

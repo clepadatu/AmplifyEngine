@@ -15,7 +15,7 @@
 #include <ft2build.h>
 #include FT_FREETYPE_H
 #include <map>
-#include <D:\===Repositories===\AmplifyEngine/Dependencies/GLM/include/gtc/type_ptr.hpp>
+#include <G:\=====Repositories====\AmplifyEngine/Dependencies/GLM/include/gtc/type_ptr.hpp>
 #include "LuaHelperFunctions.h"
 class TextComponent : public Component
 	{

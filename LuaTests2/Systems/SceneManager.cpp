@@ -23,6 +23,14 @@ void SceneManager::basicInitialization ( int& code )
 
 	printLoadedTemplate ( );
 	code = 0;
+	Renderer->setUI ( this->getUI ( ) );
+	Renderer->setOBJ ( this->getOBJ ( ) );
+	Renderer->setAmmo ( this->getAmmo ( ) );
+	Renderer->enableUIOnly ( );
+	InputManager->setLevelEntities ( this->getOBJ ( ), "Gameplay" );
+	InputManager->setAmmo ( this->getAmmo ( ), "" );
+	InputManager->setMenus ( this->getUI ( ), "UI" );
+	InputManager->setLevels ( this->getLVL ( ), "UI" );
 	}
 
 void SceneManager::linkAllInterfaces(RenderingSystem* Renderer, InputSystem* InputManager, CollisionSystem* Collisions, GameLoopSystem* GameLoop)
@@ -31,7 +39,14 @@ void SceneManager::linkAllInterfaces(RenderingSystem* Renderer, InputSystem* Inp
 	this->InputManager = InputManager;
 	this->Collisions = Collisions;
 	this->GameLoop = GameLoop;
+
 	windowInterface = this->Renderer->getWindow();
+	windowInterface->linkWithInputManager ( this->InputManager );
+
+
+	this->Collisions->linkWithInterface ( Renderer->getWindow ( ) );
+	this->InputManager->linkWithInterface ( Renderer, Collisions, this);
+	this->GameLoop->linkWithInterface ( Renderer, InputManager );
 }
 
 void SceneManager::triggerNewLevel ( int ID )

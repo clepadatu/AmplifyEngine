@@ -36,15 +36,15 @@ void GameLoopSystem::DoMainLoop ()
 		if ( Renderer->entityType == "UI" || Renderer->entityType == "UI+OBJ" )
 		{
 
-			while (lag >= 250)
-				updateGameState(true);
+			while (lag >= 17)
+				updateGameState();
 		}
 		else
 		{
 			while (lag >= 10)
-				updateGameState(false);
+				updateGameState();
 		}
-		InputManager->resetInput();
+		
 		renderScreen ( );
 
 		}
@@ -57,31 +57,15 @@ void GameLoopSystem::getInput ()
 	InputManager->getInput();
 	}
 
-void GameLoopSystem::updateGameState ( bool throttle)
+void GameLoopSystem::updateGameState ( )
 	{
 	/*if (game_state == "Reload")
 		Reload();*/
-
-
-	if (Renderer->entityType == "UI")
-		{
-			InputManager->processInput(throttle);	
-			lag -= 250;
-		}
-	else 
-		if(Renderer->entityType=="OBJ")
-		{
-		InputManager->processInput(throttle);
-		lag -= 10;
-		}
-	else
-	if ( Renderer->entityType == "UI+OBJ" )
-		{
-		InputManager->processInput ( throttle );
-		lag -= 45;
-		}
 	
-
+	InputManager->processInput();	
+	lag -= 10;
+	
+	
 
 	}
 

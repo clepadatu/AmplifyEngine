@@ -20,6 +20,10 @@ extern "C" {
 	}
 
 #include "../../Dependencies/LuaBridge-master/Source/LuaBridge/LuaBridge.h"
+
+#define MAX_KEYS 1024
+#define MAX_BUTTONS 32
+
 class SceneManager;
 class InputSystem
 	{
@@ -49,9 +53,13 @@ class InputSystem
 
 		void setActiveOption (); //Set Active options - facilitate Menu option switching
 
+		
+
+
+
 		void getInput();
 
-		void processInput(bool whiletrue); //General Input processing
+		void processInput(); //General Input processing
 		void processMenuInput(); //Menu Input handler
 		void processGameplayInput(); //Gameplay Input handler
 
@@ -63,6 +71,9 @@ class InputSystem
 
 		void resetInput ();
 
+		void resetKey ( unsigned int keycode );
+		bool isKeyPressed ( unsigned int keycode ) const;
+			
 
 		bool keyDPressed ();
 		bool keyUpPressed ();
@@ -110,7 +121,11 @@ class InputSystem
 		Entity* Player;
 
 		std::string inputTypeReq; //
-
+		bool keyboard [MAX_KEYS];
+		bool keyboardProcessor [MAX_KEYS];
+		bool keyboardProcessed;
+		bool m_MouseButtons [MAX_BUTTONS];
+		friend static void  storeKeys ( GLFWwindow* window, int key, int scancode, int action, int mods );
 		//==Menu STory
 		// EntityList holds 2 menus
 		//	Each Menu has a title
