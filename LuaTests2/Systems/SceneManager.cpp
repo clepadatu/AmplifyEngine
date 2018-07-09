@@ -1,5 +1,10 @@
 #include "SceneManager.h"
-
+extern "C" {
+# include "lua.h"
+# include "lauxlib.h"
+# include "lualib.h"
+	}
+#include "../../Dependencies/LuaBridge-master/Source/LuaBridge/LuaBridge.h"
 SceneManager::~SceneManager(){}
 
 SceneManager::SceneManager()
@@ -11,43 +16,49 @@ SceneManager::SceneManager()
 
 }
 
-void SceneManager::basicInitialization ( int& code )
+void SceneManager::linkAllInterfaces ( RenderingSystem* Renderer, InputSystem* InputManager, CollisionSystem* Collisions, GameLoopSystem* GameLoop )
 	{
-
-	readFramework ( );
-	menuList = UI->getEntities ( ); //List of menus
-	levelList = LVL->getEntities ( ); //List of levels
-	preloadLevelEntities ( );
-	objectList = OBJ->getEntities ( ); //List of objects
-	ammoList = ammo->getEntities ( );
-
-	printLoadedTemplate ( );
-	code = 0;
-	Renderer->setUI ( this->getUI ( ) );
-	Renderer->setOBJ ( this->getOBJ ( ) );
-	Renderer->setAmmo ( this->getAmmo ( ) );
-	Renderer->enableUIOnly ( );
-	InputManager->setLevelEntities ( this->getOBJ ( ), "Gameplay" );
-	InputManager->setAmmo ( this->getAmmo ( ), "" );
-	InputManager->setMenus ( this->getUI ( ), "UI" );
-	InputManager->setLevels ( this->getLVL ( ), "UI" );
-	}
-
-void SceneManager::linkAllInterfaces(RenderingSystem* Renderer, InputSystem* InputManager, CollisionSystem* Collisions, GameLoopSystem* GameLoop)
-{
 	this->Renderer = Renderer;
 	this->InputManager = InputManager;
 	this->Collisions = Collisions;
 	this->GameLoop = GameLoop;
 
-	windowInterface = this->Renderer->getWindow();
+	//Setup Renderer here, so that All hooks can be done
+	readGameSettings ( );
+	this->Renderer->rendererSetup ( );
+
+	windowInterface = this->Renderer->getWindow ( );
 	windowInterface->linkWithInputManager ( this->InputManager );
 
 
 	this->Collisions->linkWithInterface ( Renderer->getWindow ( ) );
-	this->InputManager->linkWithInterface ( Renderer, Collisions, this);
+	this->InputManager->linkWithInterface ( Renderer, Collisions, this );
 	this->GameLoop->linkWithInterface ( Renderer, InputManager );
-}
+	}
+
+void SceneManager::basicInitialization ( int& code )
+	{
+
+	readFramework ( );
+	
+	
+	//preloadLevelEntities ( );
+	objectList = OBJ->getEntities ( ); //List of objects
+	ammoList = ammo->getEntities ( );
+
+	//printLoadedTemplate ( );
+	code = 0;
+	Renderer->setUI ( this->getUI ( ) );
+	/*Renderer->setOBJ ( this->getOBJ ( ) );
+	Renderer->setAmmo ( this->getAmmo ( ) );*/
+	Renderer->enableUIOnly ( );
+	/*InputManager->setLevelEntities ( this->getOBJ ( ), "Gameplay" );
+	InputManager->setAmmo ( this->getAmmo ( ), "" );*/
+	InputManager->setMenus ( this->getUI ( ), "UI" );
+	InputManager->setLevels ( this->getLVL ( ), "UI" );
+	}
+
+
 
 void SceneManager::triggerNewLevel ( int ID )
 	{
@@ -117,38 +128,41 @@ void SceneManager::triggerNewLevel ( int ID )
 
 
 
-std::list<Entity*> SceneManager::getUI ()
+
+
+
+
+
+
+
+
+
+
+
+void SceneManager::readGameSettings ( )
 	{
-	return menuList;
+	using namespace luabridge;
+	lua_State* L = luaL_newstate ( );
+	luaL_openlibs ( L );
+
+	luaL_dofile ( L, "Scripts/gamesettings.lua" );
+
+
+	Renderer->Window_fullscreen = getGlobal ( L, "Fullscreen" ).cast<int> ( );
+	Renderer->Window_height = getGlobal ( L, "Height" ).cast<int> ( );
+	Renderer->Window_width = getGlobal ( L, "Width" ).cast<int> ( );
+	numberOfLevels = getGlobal ( L, "Levels" ).cast<int> ();
 	}
-std::list<Entity*> SceneManager::getLVL ( )
-	{
-	return levelList;
-	}
-std::list<Entity*> SceneManager::getOBJ ( )
-	{
-	return objectList;
-	}
-std::list<Entity*> SceneManager::getAmmo ()
-	{
-	return ammoList;
-	}
-
-
-
-
-
-
-
-
-
-
-
-
 
 void SceneManager::readFramework ( )
 	{
+	readLevelData ( );
+	readUIData ( );
+	}
 
+void SceneManager::readLevelData ()
+	{
+	std::string level_number = "Level";
 	//initialize LUA
 	using namespace luabridge;
 	lua_State* L = luaL_newstate ( );
@@ -158,61 +172,99 @@ void SceneManager::readFramework ( )
 	luah::loadScript ( L, "Scripts/levels/levels.lua" );
 	luah::loadGetKeysFunction ( L );
 
-	LVL->addEntity ( EntityFactory::NewEntity ( L, "Level1", 1, 9 ) );
-	LVL->addEntity ( EntityFactory::NewEntity ( L, "Level2", 2, 9 ) );
+	for ( int i = 1; i <= numberOfLevels; i++ )
+		{
+		level_number = level_number + std::to_string ( i );
+		LVL->addEntity ( EntityFactory::NewEntity ( L, level_number, 0, 0 ) );
+		level_number = "Level";
+		}
+	AmplifyScene.eLevel= LVL->getEntities ( ); //List of levels
+	}
 
+void SceneManager::readUIData ()
+	{
+	//Menus
+	readUIMenus ();
+	//Backgrounds
+	readUIBackgrounds ();
+	AmplifyScene.eUserInterface = UI->getEntities ( ); //List of menus
+	}
+
+void SceneManager::readUIMenus ()
+	{
 	UI->addEntity ( EntityFactory::NewMenuEntity ( (std::string)"MainMenu", 10, 10 ) );
 	UI->addEntity ( EntityFactory::NewMenuEntity ( (std::string)"PauseMenu", 19, 10 ) );
 	UI->addEntity ( EntityFactory::NewMenuEntity ( (std::string)"GameOver", 29, 10 ) );
-
 	}
-
-void SceneManager::preloadLevelEntities ( )
+void SceneManager::readUIBackgrounds ()
 	{
-
-	std::cout << "Loading new level..." << std::endl;
-	int tGhosts;
-	int tSGhosts;
-	int bullet_Count;
-	std::list<Entity*>::iterator i = levelList.begin ( );
-	while ( i != levelList.end ( ) )
-		{
-		if ( (*i)->get<LevelComponent> ( )->ID == 1 )
-			{
-			auto temp = (*i)->get<LevelComponent> ( );
-			tGhosts = temp->ghosts;
-			tSGhosts = temp->SuperGhost;
-			bullet_Count = temp->Bullets;
-			int tGhosts_hp = temp->ghost_health;
-			int tSGhosts_hp = temp->SuperGhost_health;
-			(*i)->get<LevelComponent> ( )->Active = true;
-
-			}
-		++i;
-		}
 	using namespace luabridge;
 	lua_State* L = luaL_newstate ( );
 	luaL_openlibs ( L );
-	////Load LUA Entity Data
-	luah::loadScript ( L, "Scripts/Levels/L1/ghost.lua" );
+	//Load LUA Entity Data
+	luah::loadScript ( L, "Scripts/UI/backgrounds.lua" );
 	luah::loadGetKeysFunction ( L );
-
-	////Insert Entity Data
-	OBJ->addEntity ( EntityFactory::NewEntity ( L, "Background", 100, 100 ) );
-	for ( int i = 0; i < tGhosts; i++ )
-		OBJ->addEntity ( EntityFactory::NewEntity ( L, "ghost", i, 1 ) );
-
-	for ( int i = 0; i < tSGhosts; i++ )
-		OBJ->addEntity ( EntityFactory::NewEntity ( L, "SuperGhost", i, 1 ) );
-
-	OBJ->addEntity ( EntityFactory::NewEntity ( L, "Player", 100, 100 ) );
-
-	for ( int i = 0; i < bullet_Count; i++ )
-		ammo->addEntity ( EntityFactory::NewEntity ( L, "PlayerProjectile", 100, 101 ) );
-
+	UI->addEntity ( EntityFactory::NewEntity ( L, "Background", 0, 0) );	
 	}
 
 
+
+
+
+
+
+
+
+
+
+//
+//
+//void SceneManager::preloadLevelEntities ( )
+//	{
+//
+//	std::cout << "Loading new level..." << std::endl;
+//	int tGhosts;
+//	int tSGhosts;
+//	int bullet_Count;
+//	std::list<Entity*>::iterator i = levelList.begin ( );
+//	while ( i != levelList.end ( ) )
+//		{
+//		if ( (*i)->get<LevelComponent> ( )->ID == 1 )
+//			{
+//			auto temp = (*i)->get<LevelComponent> ( );
+//			tGhosts = temp->ghosts;
+//			tSGhosts = temp->SuperGhost;
+//			bullet_Count = temp->Bullets;
+//			int tGhosts_hp = temp->ghost_health;
+//			int tSGhosts_hp = temp->SuperGhost_health;
+//			(*i)->get<LevelComponent> ( )->Active = true;
+//
+//			}
+//		++i;
+//		}
+//	using namespace luabridge;
+//	lua_State* L = luaL_newstate ( );
+//	luaL_openlibs ( L );
+//	////Load LUA Entity Data
+//	luah::loadScript ( L, "Scripts/Levels/L1/ghost.lua" );
+//	luah::loadGetKeysFunction ( L );
+//
+//	////Insert Entity Data
+//	OBJ->addEntity ( EntityFactory::NewEntity ( L, "Background", 100, 100 ) );
+//	for ( int i = 0; i < tGhosts; i++ )
+//		OBJ->addEntity ( EntityFactory::NewEntity ( L, "ghost", i, 1 ) );
+//
+//	for ( int i = 0; i < tSGhosts; i++ )
+//		OBJ->addEntity ( EntityFactory::NewEntity ( L, "SuperGhost", i, 1 ) );
+//
+//	OBJ->addEntity ( EntityFactory::NewEntity ( L, "Player", 100, 100 ) );
+//
+//	for ( int i = 0; i < bullet_Count; i++ )
+//		ammo->addEntity ( EntityFactory::NewEntity ( L, "PlayerProjectile", 100, 101 ) );
+//
+//	}
+//
+//
 
 void SceneManager::loadLevelEntities ( int ID )
 	{
@@ -292,3 +344,24 @@ void SceneManager::printLoadedTemplate ( )
 		}
 	std::cout << "******" << std::endl;
 	}
+
+
+
+std::list<Entity*> SceneManager::getUI ( )
+	{
+	return AmplifyScene.eUserInterface;
+	}
+std::list<Entity*> SceneManager::getLVL ( )
+	{
+	return AmplifyScene.eLevel;
+	}
+std::list<Entity*> SceneManager::getOBJ ( )
+	{
+	return objectList;
+	}
+std::list<Entity*> SceneManager::getAmmo ( )
+	{
+	return ammoList;
+	}
+
+

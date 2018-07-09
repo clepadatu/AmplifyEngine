@@ -116,6 +116,7 @@
     <ClCompile Include="Systems\Utility\MovementSystem.cpp" />
     <ClCompile Include="Systems\RenderingSystem.cpp" />
     <ClCompile Include="Systems\MainSystem.cpp" />
+    <ClCompile Include="Systems\Utility\Scene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EntityComponents\Component.h" />
@@ -149,6 +150,7 @@
     <ClInclude Include="Systems\Utility\MovementSystem.h" />
     <ClInclude Include="Systems\RenderingSystem.h" />
     <ClInclude Include="Systems\MainSystem.h" />
+    <ClInclude Include="Systems\Utility\Scene.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Extras\shaders\basic.frag" />
@@ -157,15 +159,20 @@
     <None Include="Extras\shaders\FTtext.vert" />
     <None Include="Extras\shaders\text.frag" />
     <None Include="Extras\shaders\text.vert" />
-    <None Include="Scripts\buffer_data\buffer_data.lua" />
+    <None Include="Scripts\Enemies\enemies.lua" />
+    <None Include="Scripts\Levels\L1.lua" />
+    <None Include="Scripts\Levels\L2.lua" />
+    <None Include="Scripts\Levels\L3.lua" />
+    <None Include="Scripts\Levels\L4.lua" />
+    <None Include="Scripts\Levels\L5.lua" />
     <None Include="Scripts\Levels\levels.lua" />
-    <None Include="Scripts\Menus\gameover.lua" />
-    <None Include="Scripts\Levels\L1\enemies.lua" />
-    <None Include="Scripts\Levels\L1\ghost.lua" />
-    <None Include="Scripts\Levels\L1\player.lua" />
-    <None Include="Scripts\Menus\mainmenu.lua" />
-    <None Include="Scripts\Menus\pausemenu.lua" />
-    <None Include="Scripts\Settings.lua" />
+    <None Include="Scripts\UI\backgrounds.lua" />
+    <None Include="Scripts\UI\gameover.lua" />
+    <None Include="Scripts\UI\mainmenu.lua" />
+    <None Include="Scripts\UI\pausemenu.lua" />
+    <None Include="Scripts\gameSettings.lua" />
+    <None Include="Scripts\Player\player.lua" />
+    <None Include="Scripts\Projectiles\projectiles.lua" />
   </ItemGroup>
   <ItemGroup>
     <Font Include="Extras\fonts\LSANSD.TTF" />

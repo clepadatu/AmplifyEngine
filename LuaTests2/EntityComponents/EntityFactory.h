@@ -69,16 +69,21 @@ public:
 			return e;
 			}
 
-		if ( type == "Level1" )
+		if ( type.find ( "Level" ) != std::string::npos )
+			{
+			auto e = loadEntity ( L, type, UID, UID_MARK );
+			return e;
+			}
+	/*	if ( type == "Level1" )
 			{
 			auto e = loadEntity ( L, "Level1", UID, UID_MARK );
 			return e;
 			}
-		if ( type == "Level2" )
+		if ( type. )
 			{
 			auto e = loadEntity ( L, "Level2", UID, UID_MARK );
 			return e;
-			}
+			}*/
 		
 	}
 

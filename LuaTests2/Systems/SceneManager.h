@@ -26,11 +26,19 @@ class SceneManager
 		SceneManager();
 		~SceneManager();
 
-
+		// Provide hooks to Renderer, InputManager, Collisions, GameLoop
 		void linkAllInterfaces(RenderingSystem* Renderer, InputSystem* InputManager, CollisionSystem* Collisions, GameLoopSystem* GameLoop);
+		// Load basic resources and distribute them to all other systems
 		void basicInitialization (int& code );
 		// Read LVL and UI Data
 		void readFramework();
+
+		void readGameSettings ();
+		void readLevelData ();
+
+		void readUIData ();
+		void readUIMenus ();
+		void readUIBackgrounds ();
 		// Load LVL OBJ data - lvl 1 default loading
 		void preloadLevelEntities ( );
 		// Precision LVL loading
@@ -49,20 +57,38 @@ class SceneManager
 		std::list<Entity*> getOBJ ();
 		std::list<Entity*> getAmmo ();
 	private:
-		EntitySystem* UI;
-		EntitySystem* LVL;
-		EntitySystem* OBJ;
-		EntitySystem* ammo;
-
 		RenderingSystem* Renderer;
 		InputSystem* InputManager;
 		CollisionSystem* Collisions;
 		GameLoopSystem* GameLoop;
 		Window* windowInterface;
 
+		EntitySystem* UI;
+		EntitySystem* LVL;
+		EntitySystem* OBJ;
+		EntitySystem* ammo;	
 
 		std::list<Entity*> menuList;
 		std::list<Entity*> levelList;
 		std::list<Entity*> objectList;
 		std::list<Entity*> ammoList;
+
+		int numberOfLevels;
+		struct Enemy
+			{
+			Entity* enemy;
+			std::list<Entity*> rounds;
+			};
+
+		struct Scene
+			{
+			Entity* ePlayer;
+			std::list<Entity*> ePlayerAmmo;
+			std::list<Entity*> eUserInterface;
+			std::list<Entity*> eLevel;
+			std::list<Enemy> eEnemies;
+			};
+
+		Scene AmplifyScene;
+
 	};

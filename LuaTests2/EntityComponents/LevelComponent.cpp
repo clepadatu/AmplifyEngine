@@ -11,21 +11,10 @@ LevelComponent::LevelComponent ( luabridge::LuaRef& lcTable )
 	ID = IDRef.cast<int> ( );
 	auto NameRef= lcTable ["Name"];
 	Name = NameRef.cast<std::string> ( );
-	auto EnemiesRef = lcTable ["Enemies"];
-	Enemies = EnemiesRef.cast<int> ( );
+
 	auto TimeRef= lcTable ["Time"];
 	Time = TimeRef.cast<int> ( );
-	auto GhostRef = lcTable ["ghost"];
-	ghosts = GhostRef.cast<int> ( );
-	auto GhostHRef= lcTable ["ghost_health"];
-	ghost_health = GhostHRef.cast<int> ( );
-	auto SuperGhostRef= lcTable ["SuperGhost"];
-	SuperGhost = SuperGhostRef.cast<int> ( );
-	auto SuperGhostHRef = lcTable ["SuperGhost_health"];
-	SuperGhost_health = SuperGhostHRef.cast<int> ( );
-	
-	auto BulletsRef = lcTable ["Bullets"];
-	Bullets = BulletsRef.cast<int> ( );
+
 
 	}
 

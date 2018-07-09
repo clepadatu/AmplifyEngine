@@ -28,13 +28,18 @@
 class MainSystem {
 
 public:
-
+	// Constructor - initialize all engine systems
 	MainSystem();
+	// Destructor
 	~MainSystem();
+	// Load engine resources and link systems
 	void fireUpTheEngine ();
+	// Start Engine main loop sequence
 	void Inception ();
-	void switchOffGLSYS ();
-	void switchOnGLSYS ();
+	// Handle for turning Off the GameLoop
+	void switchOffGameLoop ( );
+	// Handle for turning On the GameLoop
+	void switchOnGameLoop ( );
 	int reqid;
 
 private:

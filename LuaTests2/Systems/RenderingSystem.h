@@ -18,9 +18,9 @@ public:
 
 	RenderingSystem (  );
 	~RenderingSystem();
+	void rendererSetup ();
 
-
-	void loadSettings ( );
+	
 	void renderAllActive (double elapsed);
 	void renderMenuItems(Entity* item);
 	void renderItem ( Entity* item );
@@ -57,9 +57,7 @@ private:
 	std::list<Entity*> Ammo;
 	
 	Window* WSYS;
-	int Window_fullscreen;
-	int Window_height;
-	int Window_width;
+	
 
 	double mouse_x;
 	double mouse_y;
@@ -75,6 +73,9 @@ public:
 	bool goodbye = false;
 
 	std::string selector;
+	int Window_fullscreen;
+	int Window_height;
+	int Window_width;
 private:
 	GraphicsComponent* Obj;
 	TextComponent* textObj;

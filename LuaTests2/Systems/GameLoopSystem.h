@@ -14,18 +14,24 @@ class GameLoopSystem
 	{
 
 	public:
-
+		//Constructor
 		GameLoopSystem ( );
+		//Destructor
 		~GameLoopSystem ( );
+		// Provide hooks to Renderer and InputManager
 		void linkWithInterface(RenderingSystem* Renderer, InputSystem* InputManager);
-
-
+		// Frame tracker routine; call to provide metrics used in FPS calculus
+		void clockFrame ();
+		// Execute Game Loop
 		void DoMainLoop ();
 
-		
+		// First step in Game Loop; query any pressed keys and store result for later processing 
 		void getInput ();
+		// Second step in Game Loop; Periodic game state update function; this needs to be executed once every couple of frames, in order to produce smooth transition across multiple platforms
 		void updateGameState();
+		// Last step in Game Loop; Trigger rendering of all active objects to the screen
 		void renderScreen ();
+		// Not used
 		void Reload();
 
 

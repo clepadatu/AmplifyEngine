@@ -71,7 +71,7 @@ Entity* loadMenuEntity ( const std::string& type, const int UID, const int UID_M
 	using namespace luabridge;
 	auto e = new Entity ( UID, UID_MARK );
 	e->setType ( type );
-	LuaScript script ( "Scripts/Menus/" + type + ".lua" );
+	LuaScript script ( "Scripts/UI/" + type + ".lua" );
 	addMenuComponent<MenuComponent> ( e,script );
 	addMenuComponent<TextComponent> ( e,script );
 	
@@ -92,27 +92,3 @@ int main ( )
 	AmplifyEngine->Inception ( );
 
 	}
-
-
-
-
-
-
-
-
-
-//// Outdated
-//Entity* loadLevelEntity ( const std::string& type, const int UID, const int UID_MARK )
-//	{
-//	using namespace luabridge;
-//	auto e = new Entity ( UID, UID_MARK );
-//	e->setType ( type );
-//	LuaScript script ( "Scripts/Levels/" + type + ".lua" );
-//	addMenuComponent<MenuComponent> ( e, script );
-//	addMenuComponent<TextComponent> ( e, script );
-//
-//
-//	std::cout << type << " UniqueID=" << e->GetUID ( ) << std::endl;
-//	return e;
-//	}
-////--------------------------------------

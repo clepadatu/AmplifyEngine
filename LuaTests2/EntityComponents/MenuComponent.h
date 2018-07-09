@@ -18,18 +18,18 @@ class MenuComponent : public Component
 			}
 
 		struct Item{
-		public:
-			std::string Name;
-			int position_x;
-			int position_y;
-			int ID;
+			public:
+				std::string Name;
+				int position_x;
+				int position_y;
+				int ID;
 		};
 
 		struct Menu{
-		public:
-			int ID;
-			std::string Name;
-			std::map<int,Item> Options;
+			public:
+				int ID;
+				std::string Name;
+				std::map<int,Item> Options;
 		};
 		
 		

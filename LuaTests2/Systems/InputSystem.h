@@ -103,6 +103,10 @@ class InputSystem
 		bool game_running;
 		std::string game_status;
 		int req_id;
+		std::list<Entity*> MenuList;
+		std::list<Entity*> LevelList;
+		std::list<Entity*> EntityList;
+		std::list<Entity*> AmmoList;
 	private:
 		RenderingSystem* Renderer;
 		Window* windowInterface;
@@ -111,10 +115,7 @@ class InputSystem
 
 		EntitySystem* ESYS;
 
-		std::list<Entity*> MenuList;
-		std::list<Entity*> LevelList;
-		std::list<Entity*> EntityList;
-		std::list<Entity*> AmmoList;
+	
 
 		Entity* ActiveMenu;
 		Entity* ActiveLevel;

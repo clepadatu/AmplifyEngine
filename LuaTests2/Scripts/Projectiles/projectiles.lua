@@ -1,0 +1,29 @@
+PlayerProjectile={
+	GraphicsComponent={
+	filename="Assets/Textures/ammo.png",
+		position_x=100,
+		position_y=100,
+		size_x=15,
+		size_y=15,
+	}
+}
+
+advancedProjectile={
+	GraphicsComponent={
+	filename="Assets/Textures/ammo2.png",
+		position_x=100,
+		position_y=100,
+		size_x=15,
+		size_y=15,
+	}
+}
+
+basicProjectile={
+	GraphicsComponent={
+	filename="Assets/Textures/ammo3.png",
+		position_x=100,
+		position_y=100,
+		size_x=15,
+		size_y=15,
+	}
+}

@@ -4,7 +4,7 @@
 
 MainSystem::MainSystem()
 {
-std::cout << "Loading..." << std::endl;
+std::cout << "Initializing systems..." << std::endl;
 
 doingInception = true;
 errorCode = -1;
@@ -24,8 +24,10 @@ void MainSystem::fireUpTheEngine ()
 	StageManager->linkAllInterfaces(Renderer, InputManager, Collisions, GameLoop);
 	StageManager->basicInitialization (errorCode);
 
-
-	std::cout << "Error=" << errorCode << std::endl;	
+	if ( errorCode != 0 )
+		std::cout << "Error=" << errorCode << std::endl;
+	else
+		std::cout << "All resources loaded successfuly." << std::endl;
 	}
 
 void MainSystem::Inception ()
@@ -40,12 +42,12 @@ void MainSystem::Inception ()
 		}
 	}
 
-void MainSystem::switchOffGLSYS ()
+void MainSystem::switchOffGameLoop ( )
 	{
 	InputManager->game_running = false;
 	}
 
-void MainSystem::switchOnGLSYS ( )
+void MainSystem::switchOnGameLoop ( )
 	{
 	InputManager->game_running = true;
 	}

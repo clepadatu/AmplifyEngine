@@ -11,11 +11,14 @@ RenderingSystem::RenderingSystem (  )
 	{
 	selector = ">";
 	srand ( time ( NULL ) );
-	loadSettings ( );
+	};
+
+void RenderingSystem::rendererSetup ()
+	{
 	WSYS = new Window ( "Amplify", Window_width, Window_height, Window_fullscreen );
 	if ( WSYS->init_OK )
 		{
-		std::cout << "OpenGL Window initialised correctly." << std::endl;		
+		std::cout << "OpenGL Window initialised correctly." << std::endl;
 		}
 	WSYS->WindowColor ( 0.0f, 0.0f, 0.0f, 0.3f );
 	glEnable ( GL_DEPTH_TEST );
@@ -24,11 +27,11 @@ RenderingSystem::RenderingSystem (  )
 	//	glEnable ( GL_CULL_FACE );
 	glBlendFunc ( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
 	glPixelStorei ( GL_UNPACK_ALIGNMENT, 1 );
-	glEnable(GL_POLYGON_OFFSET_FILL);
-	glPolygonOffset(1, 0);
-	glLineWidth(2);
+	glEnable ( GL_POLYGON_OFFSET_FILL );
+	glPolygonOffset ( 1, 0 );
+	glLineWidth ( 2 );
+	}
 
-	};
 void RenderingSystem::Reset()
 {
 	entityType = "";
@@ -162,19 +165,7 @@ void RenderingSystem::setOBJ ( std::list<Entity*> Entities)
 //		}
 //	}
 
-void RenderingSystem::loadSettings ( )
-	{
-	using namespace luabridge;
-	lua_State* L = luaL_newstate ( );
-	luaL_openlibs ( L );
 
-	luaL_dofile ( L, "Scripts/settings.lua" );
-
-
-	Window_fullscreen = getGlobal ( L, "fullscreen" ).cast<int> ( );
-	Window_height = getGlobal ( L, "height" ).cast<int> ( );
-	Window_width = getGlobal ( L, "width" ).cast<int> ( );
-	}
 
 
 
@@ -184,11 +175,11 @@ void RenderingSystem::renderAllActive ( double elapsed)
 	timerFPS = elapsed;
 	if ( entityType == "UI" )
 		{
-		renderBackground ();
+		//renderBackground ();
 		for ( auto const& i : UI )
 			{
 			renderMenuItems ( i );
-			}
+			} 
 		}
 	else
 	if ( entityType == "OBJ" )
