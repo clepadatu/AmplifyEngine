@@ -15,7 +15,7 @@
 #include <ft2build.h>
 #include FT_FREETYPE_H
 #include <map>
-#include <G:\=====Repositories====\AmplifyEngine/Dependencies/GLM/include/gtc/type_ptr.hpp>
+#include <D:\===Repositories===\AmplifyEngine/Dependencies/GLM/include/gtc/type_ptr.hpp>
 #include "LuaHelperFunctions.h"
 class TextComponent : public Component
 	{
@@ -29,7 +29,7 @@ class TextComponent : public Component
 		void Draw ( );
 		GLuint ibo_count ( );
 
-		TextComponent ( LuaScript script );
+		TextComponent(luabridge::LuaRef& componentTable);
 		
 		void setScreenData ( const int width, const int height )
 			{

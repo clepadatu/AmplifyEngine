@@ -13,6 +13,7 @@
 #include "../EntityComponents\TextComponent.h"
 #include "../EntityComponents\LevelComponent.h"
 #include "../EntityComponents\GraphicsComponent.h"
+#include "../EntityComponents\UIComponent.h"
 
 #include "SceneManager.h"
 #include "GameLoopSystem.h"

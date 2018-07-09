@@ -96,6 +96,7 @@
     <ClCompile Include="EntityComponents\MenuComponent.cpp" />
     <ClCompile Include="EntityComponents\TextComponent.cpp" />
     <ClCompile Include="EntityComponents\NpcComponent.cpp" />
+    <ClCompile Include="EntityComponents\UIComponent.cpp" />
     <ClCompile Include="Extras\buffers\buffer.cpp" />
     <ClCompile Include="Extras\buffers\indexbuffer.cpp" />
     <ClCompile Include="Extras\buffers\shader.cpp" />
@@ -128,6 +129,7 @@
     <ClInclude Include="EntityComponents\MenuComponent.h" />
     <ClInclude Include="EntityComponents\TextComponent.h" />
     <ClInclude Include="EntityComponents\NpcComponent.h" />
+    <ClInclude Include="EntityComponents\UIComponent.h" />
     <ClInclude Include="Extras\buffers\buffer.h" />
     <ClInclude Include="Extras\buffers\indexbuffer.h" />
     <ClInclude Include="Extras\buffers\shader.h" />
@@ -167,9 +169,7 @@
     <None Include="Scripts\Levels\L5.lua" />
     <None Include="Scripts\Levels\levels.lua" />
     <None Include="Scripts\UI\backgrounds.lua" />
-    <None Include="Scripts\UI\gameover.lua" />
-    <None Include="Scripts\UI\mainmenu.lua" />
-    <None Include="Scripts\UI\pausemenu.lua" />
+    <None Include="Scripts\UI\menus.lua" />
     <None Include="Scripts\gameSettings.lua" />
     <None Include="Scripts\Player\player.lua" />
     <None Include="Scripts\Projectiles\projectiles.lua" />

@@ -1,22 +1,49 @@
 #include "MenuComponent.h"
 #include "../../Dependencies/LuaBridge-master/Source/LuaBridge/LuaBridge.h"
 #include <iostream>
+#include <unordered_map>
+std::unordered_map<std::string, luabridge::LuaRef> MenuComponent::getKeyValueMap(const luabridge::LuaRef& table)
+{
+	using namespace luabridge;
+	std::unordered_map<std::string, LuaRef> result;
+	if (table.isNil()) { return result; }
 
-MenuComponent::MenuComponent ( LuaScript script )
+	auto L = table.state();
+	push(L, table); // push table
+
+	lua_pushnil(L);  // push nil, so lua_next removes it from stack and puts (k, v) on stack
+	while (lua_next(L, -2) != 0) { // -2, because we have table at -1
+		if (lua_isstring(L, -2)) { // only store stuff with string keys
+			result.emplace(lua_tostring(L, -2), LuaRef::fromStack(L, -1));
+		}
+		lua_pop(L, 1); // remove value, keep key for lua_next
+	}
+
+	lua_pop(L, 1); // pop table
+	return result;
+}
+MenuComponent::MenuComponent(luabridge::LuaRef& componentTable)
 	{
 
 
-	auto mID = script.get<int> ( "ID" );
-	auto mName = script.get < std::string> ( "Name" );
-	std::vector<std::string> Ovec = script.getStringVector("Optionvec");
+	auto mID = componentTable["ID" ];
+	auto mName = componentTable["Name"].cast< std::string> ( );
+	std::cout << componentTable["Optionvec"].cast<std::string>() << std::endl;
+	for (auto& pair : getKeyValueMap(componentTable)) {
+		auto& key = pair.first;
+		auto& value = pair.second;
+		
+		std::cout << key << "->" << value << std::endl;
+	}
+	std::vector<std::string> Ovec = componentTable["Optionvec"].cast<std::vector<std::string>>();
 	auto temp = Ovec [0];
-	auto Xvec = script.getIntVector ( "Xvec" );
-	auto Yvec = script.getIntVector ( "Yvec" );
-	auto IDvec = script.getIntVector("IDvec");
-	auto touten = script.get<int> ( "Timeout_enable" );
-	auto tout = script.get<int> ( "Timeout" );
-	auto act = script.get<int> ( "Active" );
-	auto _misc = script.get<std::string> ( "MiscPhrase" );
+	auto Xvec = componentTable["Xvec"].cast<std::vector<int>>();
+	auto Yvec = componentTable["Yvec"].cast<std::vector<int>>();
+	auto IDvec = componentTable["IDvec"].cast<std::vector<int>>();
+	auto touten = componentTable["Timeout_enable"].cast<int> ( );
+	auto tout = componentTable["Timeout"].cast<int>();
+	auto act = componentTable["Active"].cast<int>();
+	auto _misc = componentTable["Timeout_enable"].cast<std::string>();
 	
 	std::map<int,Item> OptionsMap;
 	
@@ -47,6 +74,7 @@ MenuComponent::MenuComponent ( LuaScript script )
 	Misc = _misc;
 	std::cout << Misc << std::endl;
 	}
+
 
 void MenuComponent::incrementActiveItem()
 {

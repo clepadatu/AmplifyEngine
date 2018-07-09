@@ -6,11 +6,11 @@
 #include <vector>
 #include <list>
 #include "LuaHelperFunctions.h"
-
+#include <unordered_map>
 class MenuComponent : public Component
 	{
 	public:
-		MenuComponent ( LuaScript script );
+		MenuComponent(luabridge::LuaRef& componentTable);
 
 		std::string getName () const
 			{
@@ -51,8 +51,9 @@ class MenuComponent : public Component
 		Menu thisMenu;
 		std::string NA = "Sorry, this menu is unavailable right now...";
 		std::string Misc;
-		
+		std::unordered_map<std::string, luabridge::LuaRef> getKeyValueMap(const luabridge::LuaRef& table);
 	private:
 		int Timeout_enable;
 		int Timeout;
+
 	};

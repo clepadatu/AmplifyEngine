@@ -102,6 +102,9 @@
     <ClCompile Include="Systems\Utility\Scene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="EntityComponents\UIComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EntityComponents\Component.h">
@@ -200,6 +203,9 @@
     <ClInclude Include="Systems\Utility\Scene.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="EntityComponents\UIComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Extras\shaders\basic.frag" />
@@ -218,10 +224,8 @@
     <None Include="Scripts\Levels\L5.lua" />
     <None Include="Scripts\Enemies\enemies.lua" />
     <None Include="Scripts\Projectiles\projectiles.lua" />
-    <None Include="Scripts\UI\gameover.lua" />
-    <None Include="Scripts\UI\mainmenu.lua" />
-    <None Include="Scripts\UI\pausemenu.lua" />
     <None Include="Scripts\UI\backgrounds.lua" />
+    <None Include="Scripts\UI\menus.lua" />
   </ItemGroup>
   <ItemGroup>
     <Font Include="Extras\fonts\LSANSD.TTF" />

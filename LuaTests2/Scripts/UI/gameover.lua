@@ -1,9 +1,0 @@
-ID=99
-Name="Game Over"
-Optionvec={"Restart Game","Return to Main Menu"}
-Xvec={10,10}
-Yvec={50,55}
-IDvec={12,10}
-Timeout_enable=1
-Timeout=60
-Active=0

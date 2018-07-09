@@ -46,6 +46,7 @@ class SceneManager
 
 	/* NOT NEEDED ATM	void cacheData ( int typeID );*/
 
+		void setScene();
 
 
 		void triggerNewLevel(int ID);
@@ -74,6 +75,8 @@ class SceneManager
 		std::list<Entity*> ammoList;
 
 		int numberOfLevels;
+		int numberOfMenus;
+		int numberOfBackgrounds;
 		struct Enemy
 			{
 			Entity* enemy;
@@ -87,6 +90,7 @@ class SceneManager
 			std::list<Entity*> eUserInterface;
 			std::list<Entity*> eLevel;
 			std::list<Enemy> eEnemies;
+			void temp();
 			};
 
 		Scene AmplifyScene;

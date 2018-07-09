@@ -2,7 +2,7 @@
 #include "../../Dependencies/LuaBridge-master/Source/LuaBridge/LuaBridge.h"
 #include <iostream>
 
-TextComponent::TextComponent ( LuaScript script )
+TextComponent::TextComponent(luabridge::LuaRef& componentTable)
 	{
 
 	Init_FreeType ( );
@@ -124,17 +124,7 @@ void TextComponent::render_text ( std::string type, GLfloat scale, int x, int y,
 	else
 	colorvec = vec3 ( 1.0f, 1.0f, 1.0f );
 
-	/*if ( type == "Bullets" || type == "AIS" )
-		{
-		text = std::to_string ( value ) + text;
-		}
-	if ( type == "FPS" || type == "Score" )
-		{
-		if ( value != NULL )
-			{
-			text = text + std::to_string ( value );
-			}
-		}*/
+	
 	To_screen ( );
 	Object.bind ( );
 	Object_shader.setUniform3f ( "textColor", colorvec );

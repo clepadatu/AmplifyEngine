@@ -10,36 +10,42 @@
 #include "NpcComponent.h"
 #include "Component.h"
 #include <iostream>
-Entity* loadEntity ( lua_State* L, const std::string& type, const int UID, const int UID_MARK );
-Entity* loadMenuEntity ( const std::string& type, const int UID, const int UID_MARK );
+Entity* loadEntity(lua_State* L, const std::string& nodeName, const std::string& type, const int UID, const int UID_MARK);
+//Entity* loadMenuEntity(const std::string& nodeName, const std::string& type, const int UID, const int UID_MARK);
 class EntityFactory{
 
 public:
 	
-
-	static Entity* NewMenuEntity ( std::string& type, const int UID, const int UID_MARK )
-		{
-		if ( type == "MainMenu" )
-			{
-			auto e = loadMenuEntity ("MainMenu", UID, UID_MARK );
-			return e;
-			}
-		if ( type == "PauseMenu" )
-			{
-			auto e = loadMenuEntity ("PauseMenu", UID, UID_MARK );
-			return e;
-			}
-		if ( type == "GameOver" )
-			{
-			auto e = loadMenuEntity ("GameOver", UID, UID_MARK );
-			return e;
-			}
-		return NULL;
-		}
-	
-	static Entity* NewEntity(lua_State* L,const std::string& type,const int UID,const int UID_MARK)
+	////Pass-in Types:
+	//// 0 - 
+	//// 
+	////
+	////
+	//static Entity* NewMenuEntity(const std::string& nodeName,std::string& type, const int UID, const int UID_MARK)
+	//	{
+	//	if ( type == "MainMenu" )
+	//		{
+	//		auto e = loadMenuEntity ("MainMenu", UID, UID_MARK );
+	//		return e;
+	//		}
+	//	if ( type == "PauseMenu" )
+	//		{
+	//		auto e = loadMenuEntity ("PauseMenu", UID, UID_MARK );
+	//		return e;
+	//		}
+	//	if ( type == "GameOver" )
+	//		{
+	//		auto e = loadMenuEntity ("GameOver", UID, UID_MARK );
+	//		return e;
+	//		}
+	//	return NULL;
+	//	}
+	//
+	static Entity* NewEntity(lua_State* L, const std::string& nodeName,const std::string& type, const int UID, const int UID_MARK)
 	{
-		if (type == "ghost")
+		auto e = loadEntity(L, nodeName, type, UID, UID_MARK);
+		return e;
+		/*if (type == "ghost")
 		{
 			auto e = loadEntity(L, "ghost",UID,UID_MARK);
 			return e;
@@ -73,7 +79,7 @@ public:
 			{
 			auto e = loadEntity ( L, type, UID, UID_MARK );
 			return e;
-			}
+			}*/
 	/*	if ( type == "Level1" )
 			{
 			auto e = loadEntity ( L, "Level1", UID, UID_MARK );
